@@ -7,11 +7,11 @@ pipeline {
         disableConcurrentBuilds()
         ansiColor('xterm')
     }
-    // Initializing .tf
     stages {
-        stage('Init') {
+        stage('Install Dependencies') {
             steps {
                 sh """
+                 npm install
                  ls -lrth
                 """
             }
