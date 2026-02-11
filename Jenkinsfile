@@ -12,7 +12,7 @@ pipeline {
         stage('Init') {
             steps {
                 sh """
-                 ls -larth
+                 ls -lrth
                 """
             }
         }
