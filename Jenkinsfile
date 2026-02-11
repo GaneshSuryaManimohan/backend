@@ -16,7 +16,7 @@ pipeline {
             steps{
                 script{
                     def packageJson = readJSON file : 'package.json'
-                    env.APP_VERSION = packageJson.version
+                    APP_VERSION = packageJson.version
                     echo "application version: ${env.APP_VERSION}"
                 }
             }
