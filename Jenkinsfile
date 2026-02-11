@@ -14,14 +14,12 @@ pipeline {
     stages {
         stage('read the version'){
             steps{
-                sh """
-                pwd
-                ls -lrth
-                """
                 script{
+                    dir('backend') {
                     def packageJson = readJSON file : 'package.json'
                     env.APP_VERSION = packageJson.version
                     echo "application version: ${env.APP_VERSION}"
+                    }
                 }
             }
         }
