@@ -42,7 +42,7 @@ pipeline {
     post {
         always {
             echo 'I will always say hello'
-            cleanWs()
+            deleteDir()
         }
         success {
             echo 'Shows Only upon success'
