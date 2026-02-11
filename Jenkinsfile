@@ -14,6 +14,10 @@ pipeline {
     stages {
         stage('read the version'){
             steps{
+                sh """
+                pwd
+                ls -lrth
+                """
                 script{
                     def packageJson = readJSON file : 'package.json'
                     env.APP_VERSION = packageJson.version
