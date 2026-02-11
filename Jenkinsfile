@@ -30,10 +30,19 @@ pipeline {
                 """
             }
         }
+        stage('Build') {
+            steps {
+                sh """
+                 zip -r backend-${appVersion}.zip * -x Jenkinsfile -x backend-${appVersion}.zip
+                 ls -ltr
+                """
+            }
+        }
     }
     post {
         always {
             echo 'I will always say hello'
+            cleanWs()
         }
         success {
             echo 'Shows Only upon success'
