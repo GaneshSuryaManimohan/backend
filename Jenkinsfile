@@ -9,15 +9,15 @@ pipeline {
     }
 
     environment{
-        def appVersion = '' // Variable Declaration
+         APP_VERSION = '' // Variable Declaration
     }
     stages {
         stage('read the version'){
             steps{
                 script{
                     def packageJson = readJSON file : 'package.json'
-                    appVersion = packageJson.version
-                    echo "application version: $appVersion"
+                    env.APP_VERSION = packageJson.version
+                    echo "application version: ${env.APP_VERSION}"
                 }
             }
         }
@@ -26,7 +26,7 @@ pipeline {
                 sh """
                  npm install
                  ls -lrth
-                 echo "application version: $appVersion"
+                 echo "application version: ${env.APP_VERSION}"
                 """
             }
         }
