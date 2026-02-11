@@ -15,7 +15,7 @@ pipeline {
         stage('Init') {
             steps {
                 sh """
-                 echo "This is testing"
+                 ls -larth
                 """
             }
         }
