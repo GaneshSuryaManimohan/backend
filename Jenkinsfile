@@ -7,12 +7,26 @@ pipeline {
         disableConcurrentBuilds()
         ansiColor('xterm')
     }
+    
+    environment{
+        def appVersion = '' // Variable Declaration
+    }
     stages {
+        stage('read the version'){
+            steps{
+                script{
+                    def packageJson = readJSON file : 'package.json'
+                    appVersion = packageJson.verison
+                    echo "application version: $appVersion"
+                }
+            }
+        }
         stage('Install Dependencies') {
             steps {
                 sh """
                  npm install
                  ls -lrth
+                 echo "application version: $appVersion"
                 """
             }
         }
@@ -23,7 +37,6 @@ pipeline {
         }
         success {
             echo 'Shows Only upon success'
-            cleanWs() // this ensure to delete the workspace after build is success
         }
         failure {
             echo 'shows upon failure'
