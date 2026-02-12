@@ -10,6 +10,7 @@ pipeline {
 
     environment{
          APP_VERSION = '' // Variable Declaration
+         =NEXUS_URL = 'nexus.surya-devops.site:8081'
     }
     stages {
         stage('read the version'){
@@ -36,6 +37,28 @@ pipeline {
                  zip -q -r backend-${APP_VERSION}.zip * -x Jenkinsfile -x backend-${APP_VERSION}.zip
                  ls -ltr
                 """
+            }
+        }
+
+        stage('Nexus Artifact Upload') {
+            steps {
+                script{
+                    nexusArtifactUploader(
+                        nexusVersion: 'nexus3',
+                        protocol: 'http',
+                        nexusUrl: "${NEXUS_URL}",
+                        groupId: 'com.expense',
+                        version: "${APP_Version}",
+                        repository: "backend",
+                        credentialsId: 'nexus_auth',
+                        artifacts: [
+                            [artifactId: "backend",
+                            classifier: '',
+                            file: "backend-" + "${APP_VERSION}" + ".zip",
+                            type: 'zip']
+                        ]
+                    )
+                }
             }
         }
     }
