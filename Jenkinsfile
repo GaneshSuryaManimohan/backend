@@ -10,7 +10,7 @@ pipeline {
 
     environment{
          APP_VERSION = '' // Variable Declaration
-         =NEXUS_URL = 'nexus.surya-devops.site:8081'
+         NEXUS_URL = 'nexus.surya-devops.site:8081'
     }
     stages {
         stage('read the version'){
