@@ -67,9 +67,10 @@ environment {
 🏗 Pipeline Stages
 
 1️⃣ Read the Version
-
+```groovy
 def packageJson = readJSON file : 'package.json'
 APP_VERSION = packageJson.version
+```
 
 #### What It Does
 1. Reads package.json
