@@ -167,6 +167,7 @@ post {
 
 📦 Complete CI/CD Flow
 
+```pgsql
 Developer Push
       ↓
 Jenkins Pipeline Triggered
@@ -182,6 +183,7 @@ Upload artifact to Nexus
 Trigger backend-deploy job
       ↓
 Clean workspace
+```
 
 🛡 Best Practices Implemented
 
