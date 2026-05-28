@@ -47,7 +47,7 @@ pipeline {
             steps{
                 sh """
                     docker build -t backend:${APP_VERSION} .
-                    
+
                 """
             }
         }
@@ -110,7 +110,7 @@ pipeline {
     //             } 
     //         }
     //     }
-    // }
+    }
     post {
         always {
             echo 'I will always say hello'
