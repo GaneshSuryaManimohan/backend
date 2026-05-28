@@ -58,6 +58,16 @@ pipeline {
             }
         }
 
+        stage('Deploy'){
+            steps{
+                sh """
+                    cd helm
+                    sed -i "s/IMAGE_VERSION/${APP_VERSION}/g" values.yaml
+                    helm upgrade --install backend .
+                """
+            }
+        }
+
     //     stage('Sonar Scan'){
     //         environment{
     //             scannerHome = tool 'sonar' // referring scanner cli

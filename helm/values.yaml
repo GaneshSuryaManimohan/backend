@@ -1,0 +1,3 @@
+deployment:
+  replicacount: 2
+  imageversion: IMAGE_VERSION # This is a placeholder

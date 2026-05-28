@@ -1,0 +1,29 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: backend
+  namespace: expense
+  labels:
+    component: backend
+    project: expense
+    tier: app
+spec:
+  replicas: {{ .Values.deployment.replicacount }}
+  selector:
+    matchLabels:
+      component: backend
+      project: expense
+      tier: app
+  template:
+    metadata:
+      labels:
+        component: backend
+        project: expense
+        tier: app
+    spec:
+      containers:
+        - name: backend
+          image: 328342418911.dkr.ecr.us-east-1.amazonaws.com/expense-dev-backend:{{ .Values.deployment.imageversion }}
+          envFrom:
+            - configMapRef:
+                name: backend

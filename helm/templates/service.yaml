@@ -1,0 +1,16 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: backend
+  namespace: {{ .Values.service.namespace }}
+spec:
+  selector:
+    component: backend
+    project: expense
+    tier: app
+  # Define the type of service (ClusterIP, NodePort, LoadBalancer)
+  # if type is not specified, it defaults to ClusterIP
+  ports:
+    - protocol: TCP
+      port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.port }}
