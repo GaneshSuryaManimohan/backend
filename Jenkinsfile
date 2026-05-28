@@ -42,65 +42,75 @@ pipeline {
                 """
             }
         }
-        stage('Sonar Scan'){
-            environment{
-                scannerHome = tool 'sonar' // referring scanner cli
-            }
-            steps {
-                script {
-                    withSonarQubeEnv('sonar') { // referring sonar server
-                        sh "${scannerHome}/bin/sonar-scanner"
-                    }
-                }
-            }
-        }
-        stage('Quality Gate'){
+
+        stage('Docker Build and Push'){
             steps{
-                timeout(time: 30, unit: 'MINUTES') {
-                    waitForQualityGate abortPipeline: true
-                }
+                sh """
+                    docker build -t backend:${APP_VERSION} .
+                    
+                """
             }
         }
 
-        stage('Nexus Artifact Upload') {
-            steps {
-                script{
-                    nexusArtifactUploader(
-                        nexusVersion: 'nexus3',
-                        protocol: 'http',
-                        nexusUrl: "${NEXUS_URL}",
-                        groupId: 'com.expense',
-                        version: "${APP_VERSION}",
-                        repository: "backend",
-                        credentialsId: 'nexus_auth',
-                        artifacts: [
-                            [artifactId: "backend",
-                            classifier: '',
-                            file: "backend-" + "${APP_VERSION}" + ".zip",
-                            type: 'zip']
-                        ]
-                    )
-                }
-            }
-        }
+    //     stage('Sonar Scan'){
+    //         environment{
+    //             scannerHome = tool 'sonar' // referring scanner cli
+    //         }
+    //         steps {
+    //             script {
+    //                 withSonarQubeEnv('sonar') { // referring sonar server
+    //                     sh "${scannerHome}/bin/sonar-scanner"
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     stage('Quality Gate'){
+    //         steps{
+    //             timeout(time: 30, unit: 'MINUTES') {
+    //                 waitForQualityGate abortPipeline: true
+    //             }
+    //         }
+    //     }
 
-        stage('Deploy') {
-            when{
-                expression{
-                    params.deploy
-                }
-            }
-            steps {
-                script{
-                    def params = [
-                        string(name: 'APP_VERSION', value: "${APP_VERSION}")
-                    ]
-                    // Triggers the job 'backend-deploy'
-                    build job: 'backend-deploy', parameters: params, wait: false
-                } 
-            }
-        }
-    }
+    //     stage('Nexus Artifact Upload') {
+    //         steps {
+    //             script{
+    //                 nexusArtifactUploader(
+    //                     nexusVersion: 'nexus3',
+    //                     protocol: 'http',
+    //                     nexusUrl: "${NEXUS_URL}",
+    //                     groupId: 'com.expense',
+    //                     version: "${APP_VERSION}",
+    //                     repository: "backend",
+    //                     credentialsId: 'nexus_auth',
+    //                     artifacts: [
+    //                         [artifactId: "backend",
+    //                         classifier: '',
+    //                         file: "backend-" + "${APP_VERSION}" + ".zip",
+    //                         type: 'zip']
+    //                     ]
+    //                 )
+    //             }
+    //         }
+    //     }
+
+    //     stage('Deploy') {
+    //         when{
+    //             expression{
+    //                 params.deploy
+    //             }
+    //         }
+    //         steps {
+    //             script{
+    //                 def params = [
+    //                     string(name: 'APP_VERSION', value: "${APP_VERSION}")
+    //                 ]
+    //                 // Triggers the job 'backend-deploy'
+    //                 build job: 'backend-deploy', parameters: params, wait: false
+    //             } 
+    //         }
+    //     }
+    // }
     post {
         always {
             echo 'I will always say hello'
