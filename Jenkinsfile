@@ -14,6 +14,8 @@ pipeline {
     environment{
          APP_VERSION = '' // Variable Declaration
          NEXUS_URL = 'nexus.surya-devops.site:8081'
+         region = 'us-east-1'
+         acc_id = '328342418911'
     }
     stages {
         stage('read the version'){
@@ -46,7 +48,11 @@ pipeline {
         stage('Docker Build and Push'){
             steps{
                 sh """
-                    docker build -t backend:${APP_VERSION} .
+                    aws ecr get-login-password --region ${region} | docker login --username AWS --password-stdin ${acc_id}.dkr.ecr.${region}.amazonaws.com
+
+                    docker build -t ${acc_id}.dkr.ecr.${region}.amazonaws.com/expense-dev-backend:${APP_VERSION} .
+
+                    docker push ${acc_id}.dkr.ecr.${region}.amazonaws.com/expense-dev-backend:${APP_VERSION}
 
                 """
             }
