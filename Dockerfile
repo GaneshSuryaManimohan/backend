@@ -10,4 +10,4 @@ COPY package.json .
 COPY *.js .
 RUN npm install
 USER expense
-CMD ["node", "indexsas.js"]
+CMD ["node", "index.js"]
