@@ -1,4 +1,4 @@
-FROM node:20.15.0-alpine3.20
+FROM node:99.99.99-alpine
 EXPOSE 8080
 ENV DB_HOST=mysql
 #this will reduce the layers and also will create a non root user to run the application
